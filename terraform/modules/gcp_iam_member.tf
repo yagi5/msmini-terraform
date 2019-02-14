@@ -6,9 +6,9 @@
 ***********************************/
 
 resource "google_project_iam_member" "microservice_service_admins" {
-  count      = "${var.enable_gcp ? length(var.service_admins) : 0}"
+  count      = "${length(var.microservice_admins)}"
   depends_on = ["google_project.microservice"]
   project    = "${google_project.microservice.project_id}"
   role       = "roles/editor"
-  member     = "user:${element(var.service_admins, count.index)}"
+  member     = "user:${element(var.microservice_admins, count.index)}"
 }

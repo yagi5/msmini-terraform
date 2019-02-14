@@ -1,8 +1,8 @@
-variable "service_name" {
+variable "microservice_name" {
   description = "Name of the service"
 }
 
-variable "service_admins" {
+variable "microservice_admins" {
   description = "Admin members of the microservice"
 
   type    = "list"
