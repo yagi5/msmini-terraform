@@ -35,7 +35,7 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
             terraform fmt -diff=true -check=true
             ./scripts/plan terraform/microservices
-  apply-microservices:
+  apply:
     <<: *defaults
     <<: *tf
     steps:
@@ -47,6 +47,7 @@ jobs:
       - run:
           name: Run apply
           command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
             ./scripts/apply terraform/microservices
 
 workflows:
