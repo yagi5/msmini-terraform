@@ -29,6 +29,8 @@ resource "google_container_cluster" "manchester" {
 
   enable_kubernetes_alpha = false
   enable_legacy_abac      = true
+
+  depends_on = ["google_project.manchester"]
 }
 
 resource "google_container_node_pool" "manchester-n1-standard-4" {
@@ -71,4 +73,6 @@ resource "google_container_node_pool" "manchester-n1-standard-4" {
     auto_repair  = true
     auto_upgrade = true
   }
+
+  depends_on = ["google_container_cluster.manchester"]
 }
