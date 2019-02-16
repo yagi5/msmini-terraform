@@ -1,0 +1,9 @@
+#!/bin/bash
+
+service=${1}
+
+[ -z "$service" ] && echo "service name required" && exit 1
+
+mkdir terraform/microservices/$service
+cp template/microservices/* terraform/microservices/$service/
+sed -i '' -e "s/XXXX/$service/g" terraform/microservices/$service/*

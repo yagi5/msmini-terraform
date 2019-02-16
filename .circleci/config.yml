@@ -1,0 +1,63 @@
+defaults: &defaults
+  working_directory: /home/circleci/project
+
+tf: &tf
+  docker:
+    - image: hashicorp/terraform:0.11.11
+
+prepare-gcp-service-account-json: &prepare-gcp-service-account-json
+  name: Dump Google Cloud Credentials to file
+  command: |
+    echo ${GOOGLE_SERVICE_ACCOUNT_JSON} > /tmp/gcp-service-account.json
+
+install-tfnotify: &install-tfnotify
+  name: Install tfnotify
+  command: |
+    wget https://github.com/mercari/tfnotify/releases/download/v0.3.0/tfnotify_v0.3.0_linux_amd64.tar.gz
+    tar zxvf tfnotify_v0.3.0_linux_amd64.tar.gz
+    cp tfnotify_v0.3.0_linux_amd64/tfnotify /usr/local/bin/tfnotify
+    rm -rf tfnotify_v0.3.0_linux_amd64.tar.gz tfnotify_v0.3.0_linux_amd64
+
+version: 2
+jobs:
+  plan:
+    <<: *defaults
+    <<: *tf
+    steps:
+      - checkout
+      - run:
+          <<: *install-tfnotify
+      - run:
+          <<: *prepare-gcp-service-account-json
+      - run:
+          name: Run plan
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
+            terraform fmt -diff=true -check=true
+            ./scripts/plan terraform/microservices
+  apply-microservices:
+    <<: *defaults
+    <<: *tf
+    steps:
+      - checkout
+      - run:
+          <<: *install-tfnotify
+      - run:
+          <<: *prepare-gcp-service-account-json
+      - run:
+          name: Run apply
+          command: |
+            ./scripts/apply terraform/microservices
+
+workflows:
+  version: 2
+  terraform:
+    jobs:
+      - plan:
+          filters:
+            branches:
+              ignore: master
+      - apply:
+          filters:
+            branches:
+              only: master
