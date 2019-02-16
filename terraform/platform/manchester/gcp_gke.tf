@@ -24,8 +24,8 @@ resource "google_container_cluster" "manchester" {
 
   cluster_ipv4_cidr = "10.0.0.0/16"
 
-  logging_service    = "logging.googleapis.com/kubernetes"
-  monitoring_service = "monitoring.googleapis.com/kubernetes"
+  logging_service    = "logging.googleapis.com"
+  monitoring_service = "monitoring.googleapis.com"
 
   enable_kubernetes_alpha = false
   enable_legacy_abac      = true
