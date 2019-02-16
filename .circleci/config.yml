@@ -90,7 +90,8 @@ workflows:
       - apply-ms:
           filters:
             branches:
-              only: master
+              # only: master
+              ignore: master
       - plan-pl:
           filters:
             branches:
@@ -98,4 +99,5 @@ workflows:
       - apply-pl:
           filters:
             branches:
-              only: master
+              # only: master
+              ignore: master
