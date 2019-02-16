@@ -20,7 +20,7 @@ install-tfnotify: &install-tfnotify
 
 version: 2
 jobs:
-  plan:
+  plan-ms:
     <<: *defaults
     <<: *tf
     steps:
@@ -35,7 +35,7 @@ jobs:
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
             terraform fmt -diff=true -check=true
             ./scripts/plan terraform/microservices
-  apply:
+  apply-ms:
     <<: *defaults
     <<: *tf
     steps:
@@ -49,16 +49,53 @@ jobs:
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
             ./scripts/apply terraform/microservices
+  plan-pl:
+    <<: *defaults
+    <<: *tf
+    steps:
+      - checkout
+      - run:
+          <<: *install-tfnotify
+      - run:
+          <<: *prepare-gcp-service-account-json
+      - run:
+          name: Run plan
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
+            terraform fmt -diff=true -check=true
+            ./scripts/plan terraform/platform
+  apply-pl:
+    <<: *defaults
+    <<: *tf
+    steps:
+      - checkout
+      - run:
+          <<: *install-tfnotify
+      - run:
+          <<: *prepare-gcp-service-account-json
+      - run:
+          name: Run apply
+          command: |
+            export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
+            ./scripts/apply terraform/platform
 
 workflows:
   version: 2
   terraform:
     jobs:
-      - plan:
+      - plan-ms:
           filters:
             branches:
               ignore: master
-      - apply:
+      - apply-ms:
+          filters:
+            branches:
+              only: master
+      - plan-pl:
+          filters:
+            branches:
+              ignore: master
+      - apply-pl:
           filters:
             branches:
               only: master
