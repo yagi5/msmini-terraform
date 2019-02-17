@@ -8,3 +8,7 @@ variable "microservice_admins" {
   type    = "list"
   default = []
 }
+
+variable "billing_account" {
+  description = "billing account"
+}
