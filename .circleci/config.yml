@@ -88,6 +88,8 @@ workflows:
             branches:
               ignore: master
       - apply-ms:
+          requires:
+            - plan-ms
           filters:
             branches:
               only: master
@@ -96,6 +98,8 @@ workflows:
             branches:
               ignore: master
       - apply-pl:
+          requires:
+            - plan-pl
           filters:
             branches:
               only: master

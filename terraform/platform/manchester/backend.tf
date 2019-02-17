@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "msmini-terraform-tfstate"
+    bucket = "msmini-tfstate"
     prefix = "microservices/manchester/terraform.tfstate"
   }
 }

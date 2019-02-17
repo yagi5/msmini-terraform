@@ -4,15 +4,22 @@ target_dir=${1}
 
 current_branch=`git rev-parse --abbrev-ref @`
 
+echo current_branch: $current_branch
+
 if [ $current_branch = "master" ]; then
   target="HEAD^ HEAD"
 else
   target="origin/master"
 fi
 
+echo target: $target
+
 changed_dirs=$(git diff --name-only $target $target_dir | xargs -IXXX dirname XXX | uniq)
 
+echo changed_dirs: $changed_dirs
+
 for changed_dir in $changed_dirs; do
+  echo changed_dir: $changed_dir
   terraform init ${changed_dir}
-  terraform apply ${changed_dir} --auto-approve | tfnotify apply --message ${changed_dir}
+  terraform apply --auto-approve ${changed_dir} | tfnotify apply --message ${changed_dir}
 done
