@@ -92,8 +92,7 @@ workflows:
             - plan-ms
           filters:
             branches:
-              # only: master
-              ignore: master
+              only: master
       - plan-pl:
           filters:
             branches:
@@ -103,5 +102,4 @@ workflows:
             - plan-pl
           filters:
             branches:
-              # only: master
-              ignore: master
+              only: master
