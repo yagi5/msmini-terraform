@@ -1,5 +1,4 @@
 module "item-service" {
-  // item service
   source = "../../modules"
 
   microservice_name = "item"
