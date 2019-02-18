@@ -1,7 +1,7 @@
 resource "google_container_cluster" "manchester" {
   project            = "${google_project.manchester.name}"
   name               = "manchester"
-  initial_node_count = 0
+  initial_node_count = 1
   description        = ""
 
   zone = "asia-northeast1-b"
