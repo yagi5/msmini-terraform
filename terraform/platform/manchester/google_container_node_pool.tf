@@ -2,7 +2,6 @@ resource "google_container_node_pool" "manchester-n1-standard-4" {
   project = "${google_project.manchester.name}"
   name    = "manchester-n1-standard-4"
   cluster = "${google_container_cluster.manchester.name}"
-  version = "1.11.6-gke.11"
 
   initial_node_count = 1
 
