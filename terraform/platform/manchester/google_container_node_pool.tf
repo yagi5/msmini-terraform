@@ -3,7 +3,7 @@ resource "google_container_node_pool" "manchester-n1-standard-4" {
   name    = "manchester-n1-standard-4"
   cluster = "${google_container_cluster.manchester.name}"
 
-  node_count = 2
+  node_count = 1
 
   zone = "asia-northeast1-b"
 
