@@ -1,8 +1,9 @@
 resource "google_container_cluster" "manchester" {
-  project            = "${google_project.manchester.name}"
-  name               = "manchester"
-  initial_node_count = 1
-  description        = ""
+  project                  = "${google_project.manchester.name}"
+  name                     = "manchester"
+  initial_node_count       = 1
+  description              = ""
+  remove_default_node_pool = true
 
   zone = "asia-northeast1-b"
 
