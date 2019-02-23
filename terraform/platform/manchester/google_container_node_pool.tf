@@ -3,15 +3,14 @@ resource "google_container_node_pool" "manchester-n1-standard-4" {
   name    = "manchester-n1-standard-4"
   cluster = "${google_container_cluster.manchester.name}"
 
-  initial_node_count = 1
+  node_count = 2
 
   zone = "asia-northeast1-b"
 
   node_config {
     image_type      = "COS"
-    disk_size_gb    = "32"
     service_account = "default"
-    machine_type    = "n1-standard-4"
+    machine_type    = "n1-standard-1"
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud.useraccounts.readonly",
@@ -30,7 +29,7 @@ resource "google_container_node_pool" "manchester-n1-standard-4" {
 
   autoscaling {
     min_node_count = 1
-    max_node_count = 10
+    max_node_count = 3
   }
 
   management {
