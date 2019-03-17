@@ -3,12 +3,20 @@ defaults: &defaults
 
 tf: &tf
   docker:
-    - image: hashicorp/terraform:0.11.11
+    - image: google/cloud-sdk:latest
 
 prepare-gcp-service-account-json: &prepare-gcp-service-account-json
   name: Dump Google Cloud Credentials to file
   command: |
     echo ${GOOGLE_SERVICE_ACCOUNT_JSON} > /tmp/gcp-service-account.json
+
+install-terraform: &install-terraform
+  name: Install terraform
+  command: |
+    wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
+    tar zxvf terraform_0.11.13_linux_amd64.zip
+    cp terraform /usr/local/bin/terraform
+    rm -rf terraform_0.11.13_linux_amd64.zip terraform
 
 install-tfnotify: &install-tfnotify
   name: Install tfnotify
@@ -40,6 +48,8 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *install-terraform
+      - run:
           <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
@@ -55,9 +65,9 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *install-tfnotify
+          <<: *install-terraform
       - run:
-          <<: *install-gcloud
+          <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
       - run:
@@ -72,6 +82,8 @@ jobs:
     <<: *tf
     steps:
       - checkout
+      - run:
+          <<: *install-terraform
       - run:
           <<: *install-tfnotify
       - run:
@@ -88,9 +100,9 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *install-tfnotify
+          <<: *install-terraform
       - run:
-          <<: *install-gcloud
+          <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
       - run:
