@@ -18,23 +18,21 @@ setup: &setup
 install-terraform: &install-terraform
   name: Install terraform
   command: |
-    wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip
-    unzip terraform_0.11.13_linux_amd64.zip
-    cp terraform /usr/local/bin/terraform
-    rm -rf terraform_0.11.13_linux_amd64.zip terraform
+    wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip -P /tmp
+    unzip /tmp/terraform_0.11.13_linux_amd64.zip -d /usr/local/bin/
 
 install-tfnotify: &install-tfnotify
   name: Install tfnotify
   command: |
-    wget https://github.com/mercari/tfnotify/releases/download/v0.3.0/tfnotify_v0.3.0_linux_amd64.tar.gz
-    tar zxvf tfnotify_v0.3.0_linux_amd64.tar.gz
+    wget https://github.com/mercari/tfnotify/releases/download/v0.3.0/tfnotify_v0.3.0_linux_amd64.tar.gz -P /tmp
+    tar zxvf /tmp/tfnotify_v0.3.0_linux_amd64.tar.gz
     cp tfnotify_v0.3.0_linux_amd64/tfnotify /usr/local/bin/tfnotify
     rm -rf tfnotify_v0.3.0_linux_amd64.tar.gz tfnotify_v0.3.0_linux_amd64
 
 install-gcloud: &install-gcloud
   name: Install gcloud
   command: |
-    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
+    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-231.0.0-linux-x86_64.tar.gz -P /tmp
     tar zxvf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
     cp google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
     rm -rf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz google-cloud-sdk
