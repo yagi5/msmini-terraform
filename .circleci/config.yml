@@ -18,6 +18,14 @@ install-tfnotify: &install-tfnotify
     cp tfnotify_v0.3.0_linux_amd64/tfnotify /usr/local/bin/tfnotify
     rm -rf tfnotify_v0.3.0_linux_amd64.tar.gz tfnotify_v0.3.0_linux_amd64
 
+install-gcloud: &install-gcloud
+  name: Install gcloud
+  command: |
+    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
+    tar zxvf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
+    cp google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+    rm -rf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz google-cloud-sdk
+
 setup-gcloud-gke: &setup-gcloud-gke
   name: Setup kubeconfig
   command: |
@@ -49,6 +57,8 @@ jobs:
       - run:
           <<: *install-tfnotify
       - run:
+          <<: *install-gcloud
+      - run:
           <<: *prepare-gcp-service-account-json
       - run:
           <<: *setup-gcloud-gke
@@ -79,6 +89,8 @@ jobs:
       - checkout
       - run:
           <<: *install-tfnotify
+      - run:
+          <<: *install-gcloud
       - run:
           <<: *prepare-gcp-service-account-json
       - run:

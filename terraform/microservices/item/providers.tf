@@ -8,5 +8,5 @@ provider "google" {
 provider "kubernetes" {
   config_path    = "/msmini/kubeconfig"
   config_context = "gke_msmini-manchester_asia-northeast1-b_manchester"
-  alias          = "k8s"
+  alias          = "msmini-manchester"
 }
