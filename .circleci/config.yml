@@ -3,25 +3,36 @@ defaults: &defaults
 
 tf: &tf
   docker:
-    - image: hashicorp/terraform:0.11.11
+    - image: google/cloud-sdk:latest
 
 prepare-gcp-service-account-json: &prepare-gcp-service-account-json
   name: Dump Google Cloud Credentials to file
   command: |
     echo ${GOOGLE_SERVICE_ACCOUNT_JSON} > /tmp/gcp-service-account.json
 
+setup: &setup
+  name: Setup
+  command: |
+    apt -qy update && apt install -y wget unzip
+
+install-terraform: &install-terraform
+  name: Install terraform
+  command: |
+    wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip -P /tmp
+    unzip /tmp/terraform_0.11.13_linux_amd64.zip -d /usr/local/bin/
+
 install-tfnotify: &install-tfnotify
   name: Install tfnotify
   command: |
-    wget https://github.com/mercari/tfnotify/releases/download/v0.3.0/tfnotify_v0.3.0_linux_amd64.tar.gz
-    tar zxvf tfnotify_v0.3.0_linux_amd64.tar.gz
+    wget https://github.com/mercari/tfnotify/releases/download/v0.3.0/tfnotify_v0.3.0_linux_amd64.tar.gz -P /tmp
+    tar zxvf /tmp/tfnotify_v0.3.0_linux_amd64.tar.gz
     cp tfnotify_v0.3.0_linux_amd64/tfnotify /usr/local/bin/tfnotify
     rm -rf tfnotify_v0.3.0_linux_amd64.tar.gz tfnotify_v0.3.0_linux_amd64
 
 install-gcloud: &install-gcloud
   name: Install gcloud
   command: |
-    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
+    wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-231.0.0-linux-x86_64.tar.gz -P /tmp
     tar zxvf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz
     cp google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
     rm -rf google-cloud-sdk-231.0.0-linux-x86_64.tar.gz google-cloud-sdk
@@ -40,6 +51,10 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *setup
+      - run:
+          <<: *install-terraform
+      - run:
           <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
@@ -55,9 +70,11 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *install-tfnotify
+          <<: *setup
       - run:
-          <<: *install-gcloud
+          <<: *install-terraform
+      - run:
+          <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
       - run:
@@ -72,6 +89,10 @@ jobs:
     <<: *tf
     steps:
       - checkout
+      - run:
+          <<: *setup
+      - run:
+          <<: *install-terraform
       - run:
           <<: *install-tfnotify
       - run:
@@ -88,9 +109,11 @@ jobs:
     steps:
       - checkout
       - run:
-          <<: *install-tfnotify
+          <<: *setup
       - run:
-          <<: *install-gcloud
+          <<: *install-terraform
+      - run:
+          <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
       - run:
