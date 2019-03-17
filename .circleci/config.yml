@@ -10,6 +10,11 @@ prepare-gcp-service-account-json: &prepare-gcp-service-account-json
   command: |
     echo ${GOOGLE_SERVICE_ACCOUNT_JSON} > /tmp/gcp-service-account.json
 
+setup: &setup
+  name: Setup
+  command: |
+    apt -qy update && apt install -y wget
+
 install-terraform: &install-terraform
   name: Install terraform
   command: |
@@ -48,6 +53,8 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *setup
+      - run:
           <<: *install-terraform
       - run:
           <<: *install-tfnotify
@@ -64,6 +71,8 @@ jobs:
     <<: *tf
     steps:
       - checkout
+      - run:
+          <<: *setup
       - run:
           <<: *install-terraform
       - run:
@@ -83,6 +92,8 @@ jobs:
     steps:
       - checkout
       - run:
+          <<: *setup
+      - run:
           <<: *install-terraform
       - run:
           <<: *install-tfnotify
@@ -99,6 +110,8 @@ jobs:
     <<: *tf
     steps:
       - checkout
+      - run:
+          <<: *setup
       - run:
           <<: *install-terraform
       - run:
