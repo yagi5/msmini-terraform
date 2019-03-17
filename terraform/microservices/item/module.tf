@@ -4,7 +4,6 @@ module "item-service" {
 
   billing_account = "${var.billing_account}"
 
-  // modify below
   microservice_name = "item"
 
   microservice_admins = [
