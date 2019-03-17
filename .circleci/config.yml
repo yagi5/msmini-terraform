@@ -9,6 +9,7 @@ prepare-gcp-service-account-json: &prepare-gcp-service-account-json
   name: Dump Google Cloud Credentials to file
   command: |
     echo ${GOOGLE_SERVICE_ACCOUNT_JSON} > /tmp/gcp-service-account.json
+    gcloud auth activate-service-account --key-file /tmp/gcp-service-account.json
 
 setup: &setup
   name: Setup

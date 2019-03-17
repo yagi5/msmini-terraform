@@ -1,3 +1,3 @@
 variable "billing_account" {
-  description = "account for billing"
+  description = "billing account"
 }
