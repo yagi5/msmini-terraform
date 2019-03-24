@@ -61,6 +61,8 @@ jobs:
       - run:
           <<: *prepare-gcp-service-account-json
       - run:
+          <<: *setup-gcloud-gke
+      - run:
           name: Run plan
           command: |
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcp-service-account.json"
@@ -99,6 +101,8 @@ jobs:
           <<: *install-tfnotify
       - run:
           <<: *prepare-gcp-service-account-json
+      - run:
+          <<: *setup-gcloud-gke
       - run:
           name: Run plan
           command: |
