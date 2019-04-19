@@ -1,6 +1,6 @@
 resource "google_container_node_pool" "manchester-n1-standard-1" {
   project = "${google_project.manchester.name}"
-  name    = "manchester-n1-standard-4"
+  name    = "manchester-n1-standard-1"
   cluster = "${google_container_cluster.manchester.name}"
 
   node_count = 1
@@ -8,6 +8,7 @@ resource "google_container_node_pool" "manchester-n1-standard-1" {
   zone = "asia-northeast1-b"
 
   node_config {
+    preemptible     = true
     image_type      = "COS"
     service_account = "default"
     machine_type    = "n1-standard-1"
