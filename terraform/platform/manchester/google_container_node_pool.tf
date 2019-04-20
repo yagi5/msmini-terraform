@@ -28,11 +28,6 @@ resource "google_container_node_pool" "manchester-n1-standard-1" {
     ]
   }
 
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 3
-  }
-
   management {
     auto_repair  = true
     auto_upgrade = true
@@ -68,11 +63,6 @@ resource "google_container_node_pool" "manchester-f1-micro" {
       "https://www.googleapis.com/auth/servicecontrol",
       "https://www.googleapis.com/auth/trace.append",
     ]
-  }
-
-  autoscaling {
-    min_node_count = 1
-    max_node_count = 1
   }
 
   management {
