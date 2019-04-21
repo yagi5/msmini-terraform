@@ -4,7 +4,7 @@ resource "google_container_cluster" "manchester" {
   description = ""
 
   remove_default_node_pool = true
-  initial_node_count       = 0
+  initial_node_count       = 1
 
   zone = "asia-northeast1-b"
 
