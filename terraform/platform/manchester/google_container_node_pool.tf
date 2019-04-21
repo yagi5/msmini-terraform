@@ -41,7 +41,7 @@ resource "google_container_node_pool" "manchester-f1-micro" {
   name    = "manchester-f1-micro"
   cluster = "${google_container_cluster.manchester.name}"
 
-  node_count = 4
+  node_count = 1
 
   zone = "asia-northeast1-b"
 
