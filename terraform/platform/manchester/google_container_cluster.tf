@@ -1,9 +1,10 @@
 resource "google_container_cluster" "manchester" {
-  project                  = "${google_project.manchester.name}"
-  name                     = "manchester"
-  initial_node_count       = 1
-  description              = ""
+  project     = "${google_project.manchester.name}"
+  name        = "manchester"
+  description = ""
+
   remove_default_node_pool = true
+  initial_node_count       = 0
 
   zone = "asia-northeast1-b"
 
@@ -18,12 +19,14 @@ resource "google_container_cluster" "manchester" {
     }
   }
 
-  network_policy {
-    provider = "CALICO"
-    enabled  = true
+  addons_config {
+    network_policy_config {
+      disabled = true
+    }
   }
 
   cluster_ipv4_cidr = "10.0.0.0/16"
+  subnetwork        = ""
 
   logging_service    = "logging.googleapis.com"
   monitoring_service = "monitoring.googleapis.com"
