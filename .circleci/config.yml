@@ -41,9 +41,9 @@ install-gcloud: &install-gcloud
 setup-gcloud-gke: &setup-gcloud-gke
   name: Setup kubeconfig
   command: |
-    gcloud container clusters get-credentials manchester --zone="asia-northeast1-b" --project="msmini-manchester"
+    # gcloud container clusters get-credentials manchester --zone="asia-northeast1-b" --project="msmini-manchester"
     mkdir /msmini
-    mv $HOME/.kube/config /msmini/kubeconfig
+    # mv $HOME/.kube/config /msmini/kubeconfig
 
 version: 2
 jobs:
